@@ -15,7 +15,14 @@ body {
   font-family: 'Questrial', sans-serif;
   font-weight: 400;
   height: 100vh;
-  background-image: linear-gradient(to top left, #c2c29d 0%, #ada56d 100%);
+  /* background-image: linear-gradient(to top left, #c2c29d 0%, #ada56d 100%); */
+  background: linear-gradient(
+      to top left,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    url('images/background.jpg') no-repeat center;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,10 +30,9 @@ body {
 
 /* LAYOUT */
 main {
-  border: 2px solid red;
   width: 100rem;
   height: 60rem;
-  background-color: rgba(255, 255, 255, 0.35);
+  background-color: rgba(57, 150, 0, 0.7);
   display: flex;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.35);
   border-radius: 9px;
@@ -37,31 +43,32 @@ main {
 .player {
   flex: 50%;
   padding: 9rem;
-  border: 2px solid green;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  position: relative;
 }
 
 /* ELEMENTS */
 .name {
   font-size: 4rem;
   font-weight: 400;
+  color: #333;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-shadow: 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.35);
-  margin-bottom: 1rem;
+  text-shadow: 0.2rem 0.2rem 0.5rem rgba(255, 255, 255, 0.15);
+  margin-bottom: 2rem;
 }
 
 .points {
   width: 70%;
   color: #fff;
-  background-color: #b5c86b;
+  background-color: rgba(255, 255, 255, 0.2);
   padding: 2rem;
   border-radius: 10px;
   margin-bottom: auto;
-  box-shadow: inset 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.35);
+  box-shadow: inset -0.5rem -0.5rem 0.5rem rgba(0, 0, 0, 0.35);
 }
 
 .points-label {
@@ -80,19 +87,40 @@ main {
   color: #052b1a;
 }
 
+.player--active {
+  background-color: rgba(255, 255, 255, 0.8);
+  opacity: 1;
+}
+
+.player--active .name {
+  font-weight: 700;
+}
+
+.player--active .points {
+  background-color: rgba(144, 177, 59, 0.7);
+  opacity: 1;
+}
+
+.player--active .score {
+  color: #052b1a;
+}
+
+.player--active .current {
+  opacity: 1;
+}
+
 .current {
   width: 60%;
   color: #fff;
   background-color: #052b1a;
   padding: 1rem;
   border-radius: 10px;
-  margin-bottom: auto;
+  opacity: 0.7;
 }
 
 .current-label {
   font-size: 1.7rem;
   text-transform: uppercase;
-  color: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,7 +135,7 @@ main {
 .dices {
   position: absolute;
   height: 8rem;
-  top: 20rem;
+  top: 28rem;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -115,7 +143,7 @@ main {
 .dice {
   height: 100%;
   margin: 0 1rem;
-  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
+  box-shadow: -0.5rem 0.5rem 2rem rgba(0, 0, 0, 0.8);
 }
 
 .btn {
@@ -136,23 +164,31 @@ main {
   transition: all 0.2s;
 }
 
+.btn:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
 .btn--new {
-  top: 10rem;
+  top: 5rem;
 }
 
 .btn--roll {
-  top: 37rem;
+  top: 45rem;
 }
 
 .btn--finish {
-  top: 45rem;
+  top: 50rem;
 }
 
 .btn:active {
   transform: translate(-50%, 3px);
-  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
 }
 
 .btn:focus {
   outline: none;
+}
+
+.hidden {
+  display: hidden;
 }
