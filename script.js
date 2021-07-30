@@ -68,6 +68,7 @@ btnRoll.addEventListener('click', function () {
     // current0El.textContent = currentScore;
 
     if (currentScore === 31) {
+      playing = false;
       if (activePlayer === 0) {
         document
           .querySelector(`.player--${activePlayer}`)
@@ -75,7 +76,6 @@ btnRoll.addEventListener('click', function () {
 
         // document.querySelector(`.player--${activePlayer} .name`).textContent =
         //   'Winner!';
-
         document
           .querySelector(`#win--${activePlayer}`)
           .classList.remove('hidden');
@@ -94,13 +94,22 @@ btnRoll.addEventListener('click', function () {
         activePlayer = activePlayer === 0 ? 1 : 0;
         player0El.classList.toggle('player--active');
         player1El.classList.toggle('player--active');
+
+        setTimeout(function () {
+          playing = true;
+          // score = 0;
+          // score0El.textContent = score;
+          // score1El.textContent = score; to powinno pojscdopiero po porownnaiu z graczem nr 2
+          player1El.classList.remove('player--winPoint');
+          player0El.classList.remove('player--winPoint');
+
+          document.querySelector(`#win--0`).classList.add('hidden');
+          document.querySelector(`#win--1`).classList.add('hidden');
+        }, 800);
       } else if (activePlayer === 1) {
         document
           .querySelector(`.player--${activePlayer}`)
           .classList.add('player--winPoint');
-
-        // document.querySelector(`.player--${activePlayer} .name`).textContent =
-        //   'Winner!';
 
         document
           .querySelector(`#win--${activePlayer}`)
@@ -130,18 +139,20 @@ btnRoll.addEventListener('click', function () {
 
           document.querySelector(`#win--0`).classList.add('hidden');
           document.querySelector(`#win--1`).classList.add('hidden');
-        }, 1000);
+
+          playing = true;
+        }, 800);
       }
       // playing = false;
     } else if (currentScore > 31) {
       document
         .querySelector(`#loss--${activePlayer}`)
         .classList.remove('hidden');
-
-      currentScore = 0;
       document.querySelector(`#current--${activePlayer}`).textContent =
         currentScore;
       btnFinish.classList.remove('btn-active');
+      currentScore = 0;
+      playing = false;
 
       if (activePlayer === 1 && score0El.textContent > 0) {
         totalPoints[0]++;
@@ -151,8 +162,6 @@ btnRoll.addEventListener('click', function () {
 
         document.querySelector(`#win--0`).classList.remove('hidden');
 
-        console.log('dziala');
-
         setTimeout(function () {
           score = 0;
           score0El.textContent = score;
@@ -160,12 +169,26 @@ btnRoll.addEventListener('click', function () {
           player0El.classList.remove('player--winPoint');
 
           document.querySelector(`#win--0`).classList.add('hidden');
-        }, 1000);
+        }, 800);
       }
-      // playing = false;
-      activePlayer = activePlayer === 0 ? 1 : 0;
-      player0El.classList.toggle('player--active');
-      player1El.classList.toggle('player--active');
+
+      // zeruje current points dla aktywnego gracza po 1s
+      setTimeout(function () {
+        document.querySelector(`#current--${activePlayer}`).textContent =
+          currentScore;
+
+        for (let i = 0; i < lossEl.length; i++) {
+          lossEl[i].classList.add('hidden');
+          console.log(lossEl[i]);
+        }
+
+        // playing = false;
+        activePlayer = activePlayer === 0 ? 1 : 0;
+        player0El.classList.toggle('player--active');
+        player1El.classList.toggle('player--active');
+
+        playing = true;
+      }, 1000);
     } else if (currentScore >= 16) {
       dicesEl[0].classList.add('hidden');
       btnFinish.classList.add('btn-active');
@@ -173,14 +196,11 @@ btnRoll.addEventListener('click', function () {
   }
 });
 
-if (currentScore >= 16) {
-}
-
 btnFinish.addEventListener('click', function () {
   btnFinish.classList.remove('btn-active');
 
   if (currentScore >= 16) {
-    playing = false;
+    playing = false; //
     score = currentScore;
     document.querySelector(`#score--${activePlayer}`).textContent = score;
     currentScore = 0;
@@ -190,8 +210,9 @@ btnFinish.addEventListener('click', function () {
     activePlayer = activePlayer === 0 ? 1 : 0;
     player0El.classList.toggle('player--active');
     player1El.classList.toggle('player--active');
-    playing = true;
+    playing = true; //
 
+    // Wydaje mi sie ze kod nizej nie powinien byc w srodku
     if (activePlayer === 0 && score0El.textContent === 31) {
       totalPoints[0]++;
       document.querySelector(`#points--0`).textContent = totalPoints[0];
@@ -209,7 +230,11 @@ btnFinish.addEventListener('click', function () {
         player0El.classList.remove('player--winPoint');
 
         document.querySelector(`#win--0`).classList.add('hidden');
-      }, 1000);
+      }, 800);
+    } else if (activePlayer === 1 && score1El.textContent < 31) {
+      // activePlayer = activePlayer === 0 ? 1 : 0;
+      // player0El.classList.toggle('player--active');
+      // player1El.classList.toggle('player--active');
     }
 
     if (score0El.textContent == 0 && score1El.textContent != 0) {
@@ -227,9 +252,10 @@ btnFinish.addEventListener('click', function () {
         player1El.classList.remove('player--winPoint');
 
         document.querySelector(`#win--1`).classList.add('hidden');
-      }, 1000);
+      }, 800);
     }
 
+    // trzeba dodac if (score0El.textContent ==31  && score1El.textContent != 0)
     if (score0El.textContent != 0 && score1El.textContent != 0) {
       if (score0El.textContent > score1El.textContent) {
         console.log('1 :winner');
@@ -249,8 +275,12 @@ btnFinish.addEventListener('click', function () {
           score1El.textContent = score;
           player0El.classList.remove('player--winPoint');
 
+          currentScore = 0;
+          document.querySelector(`#current--0`).textContent = currentScore;
+          document.querySelector(`#current--1`).textContent = currentScore;
+
           document.querySelector(`#win--0`).classList.add('hidden');
-        }, 1000);
+        }, 800);
 
         // playing = false;
       } else if (score1El.textContent > score0El.textContent) {
@@ -272,12 +302,21 @@ btnFinish.addEventListener('click', function () {
           player1El.classList.remove('player--winPoint');
 
           document.querySelector(`#win--1`).classList.add('hidden');
-        }, 1000);
-      } else {
-        playing = false;
-        player0El.classList.remove('player--active');
+        }, 800);
+      } else if (score1El.textContent === score0El.textContent) {
+        setTimeout(function () {
+          score = 0;
+          score0El.textContent = score;
+          score1El.textContent = score;
+          player0El.classList.remove('player--winPoint');
 
-        player1El.classList.remove('player--active');
+          document.querySelector(`#win--0`).classList.add('hidden');
+        }, 800);
+        // } else {
+        //   playing = false;
+        //   player0El.classList.remove('player--active');
+
+        //   player1El.classList.remove('player--active');
       }
     }
   }
