@@ -14,13 +14,15 @@ const btnRoll = document.querySelector('.btn--roll');
 const btnFinish = document.querySelector('.btn--finish');
 
 const dicesEl = document.querySelectorAll('.dice');
-const lossEl = document.querySelector('.loss');
+const lossEl = document.querySelectorAll('.loss');
+const winEl = document.querySelectorAll('.win');
 
 // Starting conditions
 let currentScore = 0;
 let activePlayer = 0;
 let score = 0;
 let playing = true;
+let totalPoints = [0, 0];
 
 points0El.textContent = 0;
 points1El.textContent = 0;
@@ -35,6 +37,17 @@ for (let i = 0; i < dicesEl.length; i++) {
   dicesEl[i].classList.add('hidden');
   console.log(dicesEl[i]);
 }
+
+for (let i = 0; i < lossEl.length; i++) {
+  lossEl[i].classList.add('hidden');
+  console.log(lossEl[i]);
+}
+
+for (let i = 0; i < winEl.length; i++) {
+  winEl[i].classList.add('hidden');
+}
+
+// btnFinish.classList.remove('btn-active');
 
 btnRoll.addEventListener('click', function () {
   if (playing) {
@@ -57,35 +70,60 @@ btnRoll.addEventListener('click', function () {
     if (currentScore === 31) {
       document
         .querySelector(`.player--${activePlayer}`)
-        .classList.add('player--winner');
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.remove('player--active');
+        .classList.add('player--winPoint');
 
-      document.querySelector(`.player--${activePlayer} .name`).textContent =
-        'Winner!';
+      // document.querySelector(`.player--${activePlayer} .name`).textContent =
+      //   'Winner!';
+
+      document
+        .querySelector(`#win--${activePlayer}`)
+        .classList.remove('hidden');
+
+      totalPoints[activePlayer]++;
+      document.querySelector(`#points--${activePlayer}`).textContent =
+        totalPoints[activePlayer];
+
+      score = currentScore;
+
+      document.querySelector(`#score--${activePlayer}`).textContent = score;
+      currentScore = 0;
+      document.querySelector(`#current--${activePlayer}`).textContent =
+        currentScore;
       playing = false;
     } else if (currentScore > 31) {
-      // current0El.textContent = currentScore;
-      lossEl.classList.remove('hidden');
-      currentScore = 0;
+      document
+        .querySelector(`#loss--${activePlayer}`)
+        .classList.remove('hidden');
 
+      currentScore = 0;
+      document.querySelector(`#current--${activePlayer}`).textContent =
+        currentScore;
+      btnFinish.classList.remove('btn-active');
+
+      // playing = false;
       activePlayer = activePlayer === 0 ? 1 : 0;
       player0El.classList.toggle('player--active');
       player1El.classList.toggle('player--active');
     } else if (currentScore >= 16) {
       dicesEl[0].classList.add('hidden');
+      btnFinish.classList.add('btn-active');
     }
   }
 });
 
+if (currentScore >= 16) {
+}
+
 btnFinish.addEventListener('click', function () {
+  btnFinish.classList.remove('btn-active');
+
   if (currentScore >= 16) {
     playing = false;
     score = currentScore;
     document.querySelector(`#score--${activePlayer}`).textContent = score;
     currentScore = 0;
-    current0El.textContent = currentScore;
+    document.querySelector(`#current--${activePlayer}`).textContent =
+      currentScore;
 
     activePlayer = activePlayer === 0 ? 1 : 0;
     player0El.classList.toggle('player--active');
@@ -95,21 +133,51 @@ btnFinish.addEventListener('click', function () {
     if (score0El.textContent != 0 && score1El.textContent != 0) {
       if (score0El.textContent > score1El.textContent) {
         console.log('1 :winner');
-        player0El.classList.add('player--winner');
-        document
-          .querySelector(`.player--${activePlayer}`)
-          .classList.remove('player--active');
+        // player0El.classList.add('player--winner');
+        //   .querySelector(`.player--${activePlayer}`)
+        //   .classList.remove('player--active');
+        player0El.classList.add('player--winPoint');
 
-        playing = false;
+        document.querySelector(`#win--0`).classList.remove('hidden');
+
+        totalPoints[0]++;
+        document.querySelector(`#points--0`).textContent = totalPoints[0];
+
+        setTimeout(function () {
+          score = 0;
+          score0El.textContent = score;
+          score1El.textContent = score;
+          player0El.classList.remove('player--winPoint');
+
+          document.querySelector(`#win--0`).classList.add('hidden');
+        }, 1000);
+
+        // playing = false;
       } else if (score1El.textContent > score0El.textContent) {
         console.log('2 :winner');
-        document
-          .querySelector(`.player--${activePlayer}`)
-          .classList.remove('player--active');
+        console.log(activePlayer);
+        // document.querySelector(`.player--${activePlayer}`);
+        // .classList.remove('player--active');
+        player1El.classList.add('player--winPoint');
 
-        player1El.classList.add('player--winner');
+        document.querySelector(`#win--1`).classList.remove('hidden');
 
+        totalPoints[1]++;
+        document.querySelector(`#points--1`).textContent = totalPoints[1];
+
+        setTimeout(function () {
+          score = 0;
+          score0El.textContent = score;
+          score1El.textContent = score;
+          player1El.classList.remove('player--winPoint');
+
+          document.querySelector(`#win--1`).classList.add('hidden');
+        }, 1000);
+      } else {
         playing = false;
+        player0El.classList.remove('player--active');
+
+        player1El.classList.remove('player--active');
       }
     }
   }
