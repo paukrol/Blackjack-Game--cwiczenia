@@ -2,65 +2,65 @@
 
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
-const points0El = document.querySelector('#points--0');
-const points1El = document.querySelector('#points--1');
-const score0El = document.querySelector('#score--0');
-const score1El = document.querySelector('#score--1');
-const current0El = document.querySelector('#current--0');
-const current1El = document.querySelector('#current--1');
+// const points0El = document.querySelector('#points--0');
+// const points1El = document.querySelector('#points--1');
+// const score0El = document.querySelector('#score--0');
+// const score1El = document.querySelector('#score--1');
+// const current0El = document.querySelector('#current--0');
+// const current1El = document.querySelector('#current--1');
 
-const btnNew = document.querySelector('.btn--new');
-const btnRoll = document.querySelector('.btn--roll');
-const btnFinish = document.querySelector('.btn--finish');
+// const btnNew = document.querySelector('.btn--new');
+// const btnRoll = document.querySelector('.btn--roll');
+// const btnFinish = document.querySelector('.btn--finish');
 
-const dicesEl = document.querySelectorAll('.dice');
-const lossEl = document.querySelectorAll('.loss');
-const winEl = document.querySelectorAll('.win');
+// const dicesEl = document.querySelectorAll('.dice');
+// const lossEl = document.querySelectorAll('.loss');
+// const winEl = document.querySelectorAll('.win');
 
 // Starting conditions
-let currentScore = 0;
-let activePlayer = 0;
-let score = 0;
-let playing = true;
-let totalPoints = [0, 0];
+// let currentScore = 0;
+// let activePlayer = 0;
+// let score = 0;
+// let playing = true;
+// let totalPoints = [0, 0];
 
-points0El.textContent = 0;
-points1El.textContent = 0;
+// points0El.textContent = 0;
+// points1El.textContent = 0;
 
-score0El.textContent = 0;
-score1El.textContent = 0;
+// score0El.textContent = 0;
+// score1El.textContent = 0;
 
-current0El.textContent = 0;
-current1El.textContent = 0;
+// current0El.textContent = 0;
+// current1El.textContent = 0;
 
-for (let i = 0; i < dicesEl.length; i++) {
-  dicesEl[i].classList.add('hidden');
-  console.log(dicesEl[i]);
-}
+// for (let i = 0; i < dicesEl.length; i++) {
+//   dicesEl[i].classList.add('hidden');
+//   console.log(dicesEl[i]);
+// }
 
-for (let i = 0; i < lossEl.length; i++) {
-  lossEl[i].classList.add('hidden');
-  console.log(lossEl[i]);
-}
+// for (let i = 0; i < lossEl.length; i++) {
+//   lossEl[i].classList.add('hidden');
+//   console.log(lossEl[i]);
+// }
 
-for (let i = 0; i < winEl.length; i++) {
-  winEl[i].classList.add('hidden');
-}
+// for (let i = 0; i < winEl.length; i++) {
+//   winEl[i].classList.add('hidden');
+// }
 
 // btnFinish.classList.remove('btn-active');
 
 btnRoll.addEventListener('click', function () {
   if (playing) {
-    const dice = [
-      Math.trunc(Math.random() * 6) + 1,
-      Math.trunc(Math.random() * 6) + 1,
-    ];
+    // const dice = [
+    //   Math.trunc(Math.random() * 6) + 1,
+    //   Math.trunc(Math.random() * 6) + 1,
+    // ];
 
-    dicesEl.forEach((item, index) => {
-      item.classList.remove('hidden');
-      const src = dice[index];
-      item.src = `images/dice-${src}.png`;
-    });
+    // dicesEl.forEach((item, index) => {
+    //   item.classList.remove('hidden');
+    //   const src = dice[index];
+    //   item.src = `images/dice-${src}.png`;
+    // });
 
     currentScore += dice[0] + dice[1];
     document.querySelector(`#current--${activePlayer}`).textContent =
@@ -84,9 +84,9 @@ btnRoll.addEventListener('click', function () {
         document.querySelector(`#points--${activePlayer}`).textContent =
           totalPoints[activePlayer];
 
-        score = currentScore;
+        score = currentScore; // to tak ale nie przyspisywac do  textContent
 
-        document.querySelector(`#score--${activePlayer}`).textContent = score;
+        document.querySelector(`#score--${activePlayer}`).textContent = score; // tego nie
         currentScore = 0;
         document.querySelector(`#current--${activePlayer}`).textContent =
           currentScore;
@@ -189,9 +189,9 @@ btnRoll.addEventListener('click', function () {
 
         playing = true;
       }, 1000);
-    } else if (currentScore >= 16) {
-      dicesEl[0].classList.add('hidden');
-      btnFinish.classList.add('btn-active');
+      // } else if (currentScore >= 16) {
+      //   dicesEl[0].classList.add('hidden');
+      //   btnFinish.classList.add('btn-active');
     }
   }
 });
