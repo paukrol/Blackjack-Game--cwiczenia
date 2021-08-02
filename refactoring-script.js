@@ -50,34 +50,30 @@ let playing = true;
 btnRoll.addEventListener('click', function () {
   if (playing) {
     // 1. Generating a random dices roll
-    playing = false;
+    // playing = false;
     const dices = [
       Math.trunc(Math.random() * 6) + 1,
       Math.trunc(Math.random() * 6) + 1,
     ];
 
     // 2. Display dices
-    dicesEl.forEach((diceItem, index) => {
-      diceItem.classList.add('hidden');
+
+    if (currentScore >= 16) {
+      dicesEl[1].classList.remove('hidden');
+      const src = dices[1];
+      dicesEl[1].src = `images/dice-${src}.png`;
 
       setTimeout(function () {
-        diceItem.classList.remove('hidden');
-        const src = dices[index];
-        diceItem.src = `images/dice-${src}.png`;
-        playing = true;
-      }, 100);
-    });
-
-    currentScore += dices[0] + dices[1];
-
-    setTimeout(function () {
-      document.querySelector(`#current--${activePlayer}`).textContent =
-        currentScore;
-
-      if (currentScore >= 16) {
         dicesEl[0].classList.add('hidden');
         btnFinish.classList.add('btn-active');
+      }, 1000);
 
+      currentScore += dices[1];
+      document.querySelector(`#current--${activePlayer}`).textContent =
+        currentScore;
+      console.log('działa');
+
+      setTimeout(function () {
         if (currentScore === 31) {
           playing = false;
           document
@@ -107,6 +103,9 @@ btnRoll.addEventListener('click', function () {
             activePlayer = activePlayer === 0 ? 1 : 0;
             player0El.classList.toggle('player--active');
             player1El.classList.toggle('player--active');
+
+            dicesEl[1].classList.add('hidden');
+            btnFinish.classList.remove('btn-active');
           }, 1000);
         } else if (currentScore > 31) {
           playing = false;
@@ -133,9 +132,29 @@ btnRoll.addEventListener('click', function () {
             activePlayer = activePlayer === 0 ? 1 : 0;
             player0El.classList.toggle('player--active');
             player1El.classList.toggle('player--active');
+
+            dicesEl[1].classList.add('hidden');
+            btnFinish.classList.remove('btn-active');
           }, 1000);
         }
+      }, 100);
+    } else {
+      dicesEl.forEach((diceItem, index) => {
+        diceItem.classList.remove('hidden');
+        const src = dices[index];
+        diceItem.src = `images/dice-${src}.png`;
+      });
+
+      currentScore += dices[0] + dices[1];
+      document.querySelector(`#current--${activePlayer}`).textContent =
+        currentScore;
+
+      if (currentScore >= 16) {
+        setTimeout(function () {
+          dicesEl[0].classList.add('hidden');
+          btnFinish.classList.add('btn-active');
+        }, 1000);
       }
-    }, 100);
+    }
   }
 });
