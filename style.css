@@ -83,7 +83,8 @@ main {
 }
 
 .loss,
-.win {
+.win1,
+.win2 {
   font-size: 1.8rem;
   letter-spacing: 1px;
   color: #444;
