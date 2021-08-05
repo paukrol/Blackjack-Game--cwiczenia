@@ -1,5 +1,15 @@
 'use strict';
 
+document.querySelector('.mark-open').addEventListener('click', () => {
+  console.log('działa');
+  document.querySelector('.wrapper-game-rules').classList.add('active');
+});
+
+document.querySelector('.mark-close').addEventListener('click', () => {
+  console.log('działa');
+  document.querySelector('.wrapper-game-rules').classList.remove('active');
+});
+
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
 const current0El = document.querySelector('#current--0');
