@@ -72,7 +72,7 @@ const checkWinner = function () {
     document.querySelector(`.player--0`).classList.remove('player--active');
     document.querySelector(`.player--1`).classList.remove('player--active');
 
-    if (totalPoints[0] >= 3) {
+    if (totalPoints[0] >= 10) {
       document.querySelector(`.player--0 .name`).textContent = 'Winner!';
       document.querySelector(`.player--0`).classList.add('player--winner');
     } else {
@@ -137,7 +137,7 @@ btnRoll.addEventListener('click', function () {
       document.querySelector(`#current--${activePlayer}`).textContent =
         currentScore[activePlayer];
 
-      if (currentScore[activePlayer] === 31) {
+      if (currentScore[activePlayer] === 21) {
         playing = false;
 
         document
@@ -154,13 +154,13 @@ btnRoll.addEventListener('click', function () {
         scores[activePlayer] = currentScore[activePlayer];
         currentScore[activePlayer] = 0;
 
-        if (totalPoints[0] >= 3 || totalPoints[1] >= 3) {
+        if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
           checkWinner();
         } else {
           if (activePlayer === 1) {
             setTimeout(function () {
               resetPoints();
-            }, 1000);
+            }, 500);
           }
           setTimeout(() => {
             document.querySelector(`#current--${activePlayer}`).textContent = 0;
@@ -168,9 +168,9 @@ btnRoll.addEventListener('click', function () {
             btnFinish.classList.remove('btn-active');
 
             switchPlayer();
-          }, 1000);
+          }, 500);
         }
-      } else if (currentScore[activePlayer] > 31) {
+      } else if (currentScore[activePlayer] > 21) {
         playing = false;
 
         document
@@ -178,8 +178,10 @@ btnRoll.addEventListener('click', function () {
           .classList.remove('hidden');
 
         btnFinish.classList.remove('btn-active');
+        // scores[activePlayer] = 0;
+        // currentScore[activePlayer] = 0;
 
-        if (activePlayer === 1 && scores[0] !== 0 && scores[0] !== 31) {
+        if (activePlayer === 1 && scores[0] !== 0 && scores[0] !== 21) {
           totalPoints[0]++;
 
           document.querySelector(`#points--0`).textContent = totalPoints[0];
@@ -190,29 +192,30 @@ btnRoll.addEventListener('click', function () {
           setTimeout(() => {
             player0El.classList.remove('player--winPoint'); //
             document.querySelector(`#win1--0`).classList.add('hidden'); //
-          }, 1000);
+          }, 500);
         } else if (activePlayer === 1) {
           setTimeout(() => {
             resetPoints();
-          }, 1000);
+          }, 500);
         }
 
-        if (totalPoints[0] >= 3 || totalPoints[1] >= 3) {
+        if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
           checkWinner();
         } else {
           setTimeout(() => {
+            resetPoints();
+
             document.querySelector(`#current--${activePlayer}`).textContent = 0;
 
             lossEl.forEach((lossItem) => {
               lossItem.classList.add('hidden');
             });
 
-            resetPoints();
             switchPlayer();
 
             dicesEl[1].classList.add('hidden');
             btnFinish.classList.remove('btn-active');
-          }, 1000);
+          }, 500);
         }
       }
     } else {
@@ -228,6 +231,92 @@ btnRoll.addEventListener('click', function () {
 
       if (currentScore[activePlayer] >= 16) {
         overSixteen();
+
+        if (currentScore[activePlayer] === 21) {
+          playing = false;
+
+          document
+            .querySelector(`.player--${activePlayer}`)
+            .classList.add('player--winPoint');
+          document
+            .querySelector(`#win2--${activePlayer}`)
+            .classList.remove('hidden');
+
+          totalPoints[activePlayer] += 2;
+          document.querySelector(`#points--${activePlayer}`).textContent =
+            totalPoints[activePlayer];
+
+          scores[activePlayer] = currentScore[activePlayer];
+          currentScore[activePlayer] = 0;
+
+          if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
+            checkWinner();
+          } else {
+            if (activePlayer === 1) {
+              setTimeout(function () {
+                resetPoints();
+              }, 500);
+            }
+            setTimeout(() => {
+              document.querySelector(
+                `#current--${activePlayer}`
+              ).textContent = 0;
+              dicesEl[1].classList.add('hidden');
+              btnFinish.classList.remove('btn-active');
+
+              switchPlayer();
+            }, 500);
+          }
+        } else if (currentScore[activePlayer] > 21) {
+          playing = false;
+
+          document
+            .querySelector(`#loss--${activePlayer}`)
+            .classList.remove('hidden');
+
+          btnFinish.classList.remove('btn-active');
+          // scores[activePlayer] = 0;
+          // currentScore[activePlayer] = 0;
+
+          if (activePlayer === 1 && scores[0] !== 0 && scores[0] !== 21) {
+            totalPoints[0]++;
+
+            document.querySelector(`#points--0`).textContent = totalPoints[0];
+
+            player0El.classList.add('player--winPoint');
+            document.querySelector(`#win1--0`).classList.remove('hidden');
+
+            setTimeout(() => {
+              player0El.classList.remove('player--winPoint'); //
+              document.querySelector(`#win1--0`).classList.add('hidden'); //
+            }, 500);
+          } else if (activePlayer === 1) {
+            setTimeout(() => {
+              resetPoints();
+            }, 500);
+          }
+
+          if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
+            checkWinner();
+          } else {
+            setTimeout(() => {
+              resetPoints();
+
+              document.querySelector(
+                `#current--${activePlayer}`
+              ).textContent = 0;
+
+              lossEl.forEach((lossItem) => {
+                lossItem.classList.add('hidden');
+              });
+
+              switchPlayer();
+
+              dicesEl[1].classList.add('hidden');
+              btnFinish.classList.remove('btn-active');
+            }, 500);
+          }
+        }
       }
     }
   }
@@ -238,9 +327,9 @@ btnFinish.addEventListener('click', function () {
     if (currentScore[activePlayer] >= 16) {
       playing = false;
 
-      if (currentScore[activePlayer] <= 31) {
+      if (currentScore[activePlayer] <= 21) {
         scores[activePlayer] = currentScore[activePlayer];
-      } else if (currentScore[activePlayer] > 31) {
+      } else if (currentScore[activePlayer] > 21) {
         scores[activePlayer] = 0;
       }
 
@@ -250,44 +339,48 @@ btnFinish.addEventListener('click', function () {
 
       if (activePlayer === 0) {
         setTimeout(() => {
+          btnFinish.classList.remove('btn-active');
           switchPlayer();
         }, 500);
       } else {
-        if (scores[1] > scores[0] && scores[0] !== 31) {
+        if (scores[1] > scores[0] && scores[0] !== 21) {
           totalPoints[1]++;
           document.querySelector(`#points--1`).textContent = totalPoints[1];
 
           player1El.classList.add('player--winPoint');
           document.querySelector(`#win1--1`).classList.remove('hidden');
 
-          if (totalPoints[0] >= 3 || totalPoints[1] >= 3) {
+          if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
             checkWinner();
           } else {
             setTimeout(() => {
+              btnFinish.classList.remove('btn-active');
               switchPlayer();
               resetPoints();
-            }, 1000);
+            }, 500);
           }
-        } else if (scores[0] > scores[1] && scores[0] !== 31) {
+        } else if (scores[0] > scores[1] && scores[0] !== 21) {
           totalPoints[0]++;
           document.querySelector(`#points--0`).textContent = totalPoints[0];
 
           player0El.classList.add('player--winPoint');
           document.querySelector(`#win1--0`).classList.remove('hidden');
 
-          if (totalPoints[0] >= 3 || totalPoints[1] >= 3) {
+          if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
             checkWinner();
           } else {
             setTimeout(() => {
+              btnFinish.classList.remove('btn-active');
               switchPlayer();
               resetPoints();
-            }, 1000);
+            }, 500);
           }
-        } else if (scores[0] === scores[1] || scores[0] === 31) {
+        } else if (scores[0] === scores[1] || scores[0] === 21) {
           setTimeout(() => {
+            btnFinish.classList.remove('btn-active');
             switchPlayer();
             resetPoints();
-          }, 1000);
+          }, 500);
         }
       }
     }
@@ -305,4 +398,6 @@ btnNew.addEventListener('click', function () {
 
   document.querySelector(`.player--0 .name`).textContent = 'Player 1';
   document.querySelector(`.player--1 .name`).textContent = 'Player 2';
+
+  btnFinish.classList.remove('btn-active');
 });
