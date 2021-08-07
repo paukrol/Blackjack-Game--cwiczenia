@@ -8,6 +8,49 @@
     <title>Blackjack Game</title>
   </head>
   <body>
+    <div class="main-header">
+      <h1 class="header">
+        BlackJack <br />
+        Dice
+      </h1>
+    </div>
+
+    <p class="question-mark">?</p>
+    <div class="wrapper-game-rules">
+      <div class="game-rules">
+        <p class="question-mark mark-close">&times;</p>
+        <p class="rule-heading">BlackJack Dice Game Rules</p>
+        <ol>
+          <li class="rule">
+            In each turn players roll two dice and add the numbers to their turn
+            total. Players can roll as many times as they wish.
+          </li>
+          <li class="rule">
+            Once players have scored 16 or more, they have the option to stop
+            rolling or just roll one die one or more times.
+          </li>
+          <li class="rule">
+            If their score goes over 21, then they bust and their turn score is
+            zero.
+          </li>
+          <li class="rule">
+            The aim is to score 21 or get closest to 21 without going over.
+          </li>
+          <li class="rule">
+            Each player scoring 21 in the round gets 2 points.
+          </li>
+          <li class="rule">
+            If no player scores 21 then the player closest to 21 gets 1 point.
+            If more than one player have the same score, then no point is given
+            to any player.
+          </li>
+          <li class="rule">
+            The game is played for multiple rounds and the first player to reach
+            10 points wins the game.
+          </li>
+        </ol>
+      </div>
+    </div>
     <main>
       <section class="player player--0 player--active">
         <h2 class="name">Player 1</h2>
@@ -15,7 +58,9 @@
           <p class="points-label">Points</p>
           <p class="points-score" id="points--0">8</p>
         </div>
-        <p class="loss hidden">Busted!</p>
+        <p class="loss" id="loss--0">Busted!</p>
+        <p class="win1" id="win1--0">+ 1!</p>
+        <p class="win2" id="win2--0">+ 2!</p>
         <p class="score" id="score--0">24</p>
         <div class="current">
           <p class="current-label">
@@ -30,6 +75,9 @@
           <p class="points-label">Points</p>
           <p class="points-score" id="points--1">5</p>
         </div>
+        <p class="loss" id="loss--1">Busted!</p>
+        <p class="win1" id="win1--1">+ 1!</p>
+        <p class="win2" id="win2--1">+ 2!</p>
         <p class="score" id="score--1">18</p>
         <div class="current">
           <p class="current-label">
@@ -45,6 +93,7 @@
       <button class="btn btn--roll">Roll Dice</button>
       <button class="btn btn--finish">Finish turn</button>
     </main>
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
+    <script src="refactoring-script.js"></script>
   </body>
 </html>
