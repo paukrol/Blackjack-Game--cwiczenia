@@ -1,3 +1,6 @@
 1. Create new txt file
 
 2. Drugi punkt
+
+
+3. nowy branch daria, sprawdxa czy ominieto pull z gałęzią paulina
