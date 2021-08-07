@@ -40,6 +40,20 @@ main {
   border-radius: 9px;
   overflow: hidden;
   position: relative;
+  opacity: 0;
+  animation: main-display 2s 4s forwards;
+}
+
+@keyframes main-display {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
 }
 
 .player {
@@ -64,7 +78,7 @@ main {
   align-items: center;
   text-align: center;
   perspective: 100rem;
-  animation: hidden 1s 2.5s forwards;
+  animation: hidden 1s 3.5s forwards;
 }
 
 @keyframes hidden {
@@ -89,7 +103,8 @@ main {
   /* letter-spacing: 2px; */
   line-height: 10rem;
   transform-style: preserve-3d;
-  animation: header-float 2s forwards;
+  animation: header-float 2s 1s forwards;
+  opacity: 0;
 }
 
 @keyframes header-float {
@@ -97,9 +112,6 @@ main {
     opacity: 0;
     transform: translateZ(-1000rem);
     letter-spacing: 2px;
-  }
-
-  90% {
   }
 
   100% {
