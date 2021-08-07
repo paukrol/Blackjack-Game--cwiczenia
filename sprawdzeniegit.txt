@@ -4,3 +4,5 @@
 
 
 3. nowy branch daria, sprawdxa czy ominieto pull z gałęzią paulina
+
+4. brach daria
