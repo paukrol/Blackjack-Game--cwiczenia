@@ -1,5 +1,13 @@
 'use strict';
 
+document.querySelector('.mark-open').addEventListener('click', () => {
+  document.querySelector('.wrapper-game-rules').classList.add('active');
+});
+
+document.querySelector('.mark-close').addEventListener('click', () => {
+  document.querySelector('.wrapper-game-rules').classList.remove('active');
+});
+
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
 const current0El = document.querySelector('#current--0');
@@ -115,6 +123,84 @@ const overSixteen = function () {
     dicesEl[0].classList.add('hidden');
     btnFinish.classList.add('btn-active');
   }, 500);
+
+  if (currentScore[activePlayer] === 21) {
+    playing = false;
+
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winPoint');
+    document.querySelector(`#win2--${activePlayer}`).classList.remove('hidden');
+
+    totalPoints[activePlayer] += 2;
+    document.querySelector(`#points--${activePlayer}`).textContent =
+      totalPoints[activePlayer];
+
+    scores[activePlayer] = currentScore[activePlayer];
+    currentScore[activePlayer] = 0;
+
+    if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
+      checkWinner();
+    } else {
+      if (activePlayer === 1) {
+        setTimeout(function () {
+          resetPoints();
+        }, 500);
+      }
+      setTimeout(() => {
+        document.querySelector(`#current--${activePlayer}`).textContent = 0;
+        dicesEl[1].classList.add('hidden');
+        btnFinish.classList.remove('btn-active');
+
+        switchPlayer();
+      }, 500);
+    }
+  } else if (currentScore[activePlayer] > 21) {
+    playing = false;
+
+    document.querySelector(`#loss--${activePlayer}`).classList.remove('hidden');
+
+    btnFinish.classList.remove('btn-active');
+    // scores[activePlayer] = 0;
+    // currentScore[activePlayer] = 0;
+
+    if (activePlayer === 1 && scores[0] !== 0 && scores[0] !== 21) {
+      totalPoints[0]++;
+
+      document.querySelector(`#points--0`).textContent = totalPoints[0];
+
+      player0El.classList.add('player--winPoint');
+      document.querySelector(`#win1--0`).classList.remove('hidden');
+
+      setTimeout(() => {
+        player0El.classList.remove('player--winPoint'); //
+        document.querySelector(`#win1--0`).classList.add('hidden'); //
+      }, 500);
+    } else if (activePlayer === 1) {
+      setTimeout(() => {
+        resetPoints();
+      }, 500);
+    }
+
+    if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
+      checkWinner();
+    } else {
+      setTimeout(() => {
+        resetPoints();
+
+        document.querySelector(`#current--${activePlayer}`).textContent = 0;
+
+        lossEl.forEach((lossItem) => {
+          lossItem.classList.add('hidden');
+        });
+
+        switchPlayer();
+
+        dicesEl[1].classList.add('hidden');
+        btnFinish.classList.remove('btn-active');
+      }, 500);
+    }
+  }
 };
 
 btnRoll.addEventListener('click', function () {
@@ -131,93 +217,10 @@ btnRoll.addEventListener('click', function () {
       const src = dices[1];
       dicesEl[1].src = `images/dice-${src}.png`;
 
-      overSixteen();
-
       currentScore[activePlayer] += dices[1];
       document.querySelector(`#current--${activePlayer}`).textContent =
         currentScore[activePlayer];
-
-      if (currentScore[activePlayer] === 21) {
-        playing = false;
-
-        document
-          .querySelector(`.player--${activePlayer}`)
-          .classList.add('player--winPoint');
-        document
-          .querySelector(`#win2--${activePlayer}`)
-          .classList.remove('hidden');
-
-        totalPoints[activePlayer] += 2;
-        document.querySelector(`#points--${activePlayer}`).textContent =
-          totalPoints[activePlayer];
-
-        scores[activePlayer] = currentScore[activePlayer];
-        currentScore[activePlayer] = 0;
-
-        if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
-          checkWinner();
-        } else {
-          if (activePlayer === 1) {
-            setTimeout(function () {
-              resetPoints();
-            }, 500);
-          }
-          setTimeout(() => {
-            document.querySelector(`#current--${activePlayer}`).textContent = 0;
-            dicesEl[1].classList.add('hidden');
-            btnFinish.classList.remove('btn-active');
-
-            switchPlayer();
-          }, 500);
-        }
-      } else if (currentScore[activePlayer] > 21) {
-        playing = false;
-
-        document
-          .querySelector(`#loss--${activePlayer}`)
-          .classList.remove('hidden');
-
-        btnFinish.classList.remove('btn-active');
-        // scores[activePlayer] = 0;
-        // currentScore[activePlayer] = 0;
-
-        if (activePlayer === 1 && scores[0] !== 0 && scores[0] !== 21) {
-          totalPoints[0]++;
-
-          document.querySelector(`#points--0`).textContent = totalPoints[0];
-
-          player0El.classList.add('player--winPoint');
-          document.querySelector(`#win1--0`).classList.remove('hidden');
-
-          setTimeout(() => {
-            player0El.classList.remove('player--winPoint'); //
-            document.querySelector(`#win1--0`).classList.add('hidden'); //
-          }, 500);
-        } else if (activePlayer === 1) {
-          setTimeout(() => {
-            resetPoints();
-          }, 500);
-        }
-
-        if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
-          checkWinner();
-        } else {
-          setTimeout(() => {
-            resetPoints();
-
-            document.querySelector(`#current--${activePlayer}`).textContent = 0;
-
-            lossEl.forEach((lossItem) => {
-              lossItem.classList.add('hidden');
-            });
-
-            switchPlayer();
-
-            dicesEl[1].classList.add('hidden');
-            btnFinish.classList.remove('btn-active');
-          }, 500);
-        }
-      }
+      overSixteen();
     } else {
       dicesEl.forEach((diceItem, index) => {
         diceItem.classList.remove('hidden');
@@ -231,92 +234,6 @@ btnRoll.addEventListener('click', function () {
 
       if (currentScore[activePlayer] >= 16) {
         overSixteen();
-
-        if (currentScore[activePlayer] === 21) {
-          playing = false;
-
-          document
-            .querySelector(`.player--${activePlayer}`)
-            .classList.add('player--winPoint');
-          document
-            .querySelector(`#win2--${activePlayer}`)
-            .classList.remove('hidden');
-
-          totalPoints[activePlayer] += 2;
-          document.querySelector(`#points--${activePlayer}`).textContent =
-            totalPoints[activePlayer];
-
-          scores[activePlayer] = currentScore[activePlayer];
-          currentScore[activePlayer] = 0;
-
-          if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
-            checkWinner();
-          } else {
-            if (activePlayer === 1) {
-              setTimeout(function () {
-                resetPoints();
-              }, 500);
-            }
-            setTimeout(() => {
-              document.querySelector(
-                `#current--${activePlayer}`
-              ).textContent = 0;
-              dicesEl[1].classList.add('hidden');
-              btnFinish.classList.remove('btn-active');
-
-              switchPlayer();
-            }, 500);
-          }
-        } else if (currentScore[activePlayer] > 21) {
-          playing = false;
-
-          document
-            .querySelector(`#loss--${activePlayer}`)
-            .classList.remove('hidden');
-
-          btnFinish.classList.remove('btn-active');
-          // scores[activePlayer] = 0;
-          // currentScore[activePlayer] = 0;
-
-          if (activePlayer === 1 && scores[0] !== 0 && scores[0] !== 21) {
-            totalPoints[0]++;
-
-            document.querySelector(`#points--0`).textContent = totalPoints[0];
-
-            player0El.classList.add('player--winPoint');
-            document.querySelector(`#win1--0`).classList.remove('hidden');
-
-            setTimeout(() => {
-              player0El.classList.remove('player--winPoint'); //
-              document.querySelector(`#win1--0`).classList.add('hidden'); //
-            }, 500);
-          } else if (activePlayer === 1) {
-            setTimeout(() => {
-              resetPoints();
-            }, 500);
-          }
-
-          if (totalPoints[0] >= 10 || totalPoints[1] >= 10) {
-            checkWinner();
-          } else {
-            setTimeout(() => {
-              resetPoints();
-
-              document.querySelector(
-                `#current--${activePlayer}`
-              ).textContent = 0;
-
-              lossEl.forEach((lossItem) => {
-                lossItem.classList.add('hidden');
-              });
-
-              switchPlayer();
-
-              dicesEl[1].classList.add('hidden');
-              btnFinish.classList.remove('btn-active');
-            }, 500);
-          }
-        }
       }
     }
   }
