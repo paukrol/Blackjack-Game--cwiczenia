@@ -1,1 +1,4 @@
 1. Chyba już rozumiem
+
+2. Najpiew nowy branch
+potem push potem pull i tak wkólko
