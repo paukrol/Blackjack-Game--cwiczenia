@@ -17,6 +17,7 @@ body {
   font-weight: 400;
   height: 100vh;
   /* background-image: linear-gradient(to top left, #c2c29d 0%, #ada56d 100%); */
+  overflow: hidden;
 }
 
 /* LAYOUT */
@@ -29,8 +30,7 @@ main {
   border-radius: 9px;
   overflow: hidden;
   position: relative;
-  opacity: 0;
-  animation: main-display 2s 4s forwards;
+  opacity: 1;
 }
 
 @keyframes main-display {
@@ -58,7 +58,8 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  opacity: 0;
+  animation: main-display 2s 3.5s forwards;
 }
 
 .player {
